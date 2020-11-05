@@ -8,10 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
-    
     @State var showPicker: Bool = false
-    @State var videoURL: URL = URL(string: "https://www.google.com")!
-    
+    @State var videoURL = URL(string: "https://www.google.com")!
+
     var videoPickerButton: some View {
         Button(action: {
             self.showPicker = true
@@ -25,10 +24,10 @@ struct HomeView: View {
             .background(Color.gray.opacity(0.4))
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .padding()
-            
+
         })
     }
-    
+
     var performPredictionButton: some View {
         Button(action: {
             DanceVisionVM.shared.isWAP()
@@ -42,23 +41,20 @@ struct HomeView: View {
             .background(Color.gray.opacity(0.4))
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .padding()
-            
+
         })
     }
-    
+
     var body: some View {
         NavigationView {
-            
             VStack(alignment: .center, spacing: 10) {
-                
                 VideoPlayer(videoURL: self.videoURL)
-                    .frame(width: UIScreen.main.bounds.width/1.25, height: UIScreen.main.bounds.height/2, alignment: .center)
+                    .frame(width: UIScreen.main.bounds.width / 1.25, height: UIScreen.main.bounds.height / 2, alignment: .center)
                     .clipShape(RoundedRectangle(cornerRadius: 25.0))
                     .id(videoURL.absoluteString)
-                
+
                 videoPickerButton
                 performPredictionButton
-                
             }
             .navigationTitle("Dance Vision")
         }

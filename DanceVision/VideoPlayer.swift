@@ -36,7 +36,6 @@ class CustomPlayerView: UIView, ObservableObject {
     var videoURL: URL
     var item: AVPlayerItem?
 
-
     @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -72,7 +71,7 @@ class CustomPlayerView: UIView, ObservableObject {
         player.volume = 0
     } // setup
 
-    func pause() {  player.pause() }
+    func pause() { player.pause() }
     func mute() { player.volume = 0 }
     func unmute() { player.volume = 1 }
 }
