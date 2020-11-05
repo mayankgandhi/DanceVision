@@ -10,6 +10,12 @@ import CoreML
 import Foundation
 import Vision
 
+struct PredictedItem {
+    let videoURL: URL
+    let wapVal: String
+    let otherVal: String
+}
+
 class DanceVisionVM: ObservableObject {
     let model = WAP()
     var allPoses: [VNRecognizedPointsObservation] = []
