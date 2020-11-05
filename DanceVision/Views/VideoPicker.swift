@@ -12,6 +12,7 @@ import SwiftUI
 struct VideoPicker: UIViewControllerRepresentable {
     @Binding var showVideoPicker: Bool
     @Binding var videoURL: URL
+    @StateObject var viewModel: DanceVisionVM
 
     var allowsEditing = true
     var videoMaximumDuration: TimeInterval = 15
@@ -49,8 +50,8 @@ struct VideoPicker: UIViewControllerRepresentable {
         func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let url = info[.mediaURL] as? URL {
                 parent.videoURL = url
-                DanceVisionVM.shared.allPoses.removeAll()
-                DanceVisionVM.shared.getPoses(url)
+                parent.viewModel.allPoses.removeAll()
+                parent.viewModel.getPoses(url)
                 parent.showVideoPicker = false
             }
         }

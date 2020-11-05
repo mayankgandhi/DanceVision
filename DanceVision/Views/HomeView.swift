@@ -7,10 +7,39 @@
 
 import SwiftUI
 
+struct PredictionIndicator: View {
+    
+    let title: String
+    @Binding var value: String
+    
+    var body: some View {
+        VStack(spacing: 5) {
+            Text(title.uppercased())
+                .font(.caption)
+            Text(value)
+                .font(.title)
+                .bold()
+                .padding()
+                .background(Color.red)
+                .clipShape(Circle())
+                .padding()
+        }
+    }
+}
+
 struct HomeView: View {
     
     @State var showPicker: Bool = false
     @State var videoURL = URL(string: "https://www.google.com")!
+    
+    @StateObject var viewModel = DanceVisionVM()
+    
+    var WAPIndicator: some View {
+        VStack(alignment: .center, spacing: 10) {
+            PredictionIndicator(title: "WAP", value: $viewModel.wapVal)
+            PredictionIndicator(title: "Other", value: $viewModel.otherVal)
+        }
+    }
 
     var videoPickerButton: some View {
         Button(action: {
@@ -31,7 +60,7 @@ struct HomeView: View {
 
     var performPredictionButton: some View {
         Button(action: {
-            DanceVisionVM.shared.isWAP()
+            viewModel.isWAP()
         }, label: {
             HStack {
                 Spacer()
@@ -49,10 +78,13 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 10) {
-                VideoPlayer(videoURL: self.videoURL)
-                    .frame(width: UIScreen.main.bounds.width / 1.25, height: UIScreen.main.bounds.height / 2, alignment: .center)
-                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                    .id(videoURL.absoluteString)
+                HStack(alignment: .center, spacing: 10) {
+                    VideoPlayer(videoURL: self.videoURL)
+                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.height / 2, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                        .id(videoURL.absoluteString)
+                    WAPIndicator
+                }
 
                 videoPickerButton
                 performPredictionButton
@@ -62,7 +94,7 @@ struct HomeView: View {
         .background(Color.blue)
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $showPicker, content: {
-            VideoPicker(showVideoPicker: $showPicker, videoURL: $videoURL)
+            VideoPicker(showVideoPicker: $showPicker, videoURL: $videoURL, viewModel: viewModel)
         })
     }
 }

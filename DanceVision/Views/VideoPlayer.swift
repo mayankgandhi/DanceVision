@@ -14,41 +14,35 @@ import SwiftUI
 struct VideoPlayer: UIViewRepresentable {
     @State var videoURL: URL
 
-    func makeUIView(context _: Context) -> CustomPlayerView {
-        return CustomPlayerView(frame: .zero, url: videoURL)
+    func makeUIView(context _: Context) -> VideoPlayerView {
+        return VideoPlayerView(frame: .zero, url: videoURL)
     }
 
-    func updateUIView(_: CustomPlayerView, context _: Context) {
+    func updateUIView(_: VideoPlayerView, context _: Context) {
         //
     }
 }
 
-// MARK: UIKIT *******************************************************************************************************
-
-class CustomPlayerView: UIView, ObservableObject {
+class VideoPlayerView: UIView, ObservableObject {
     var started: Bool = false
 
     private let playerLayer = AVPlayerLayer()
     private var playerLooper: AVPlayerLooper?
-
     let player = AVQueuePlayer()
-
     var videoURL: URL
     var item: AVPlayerItem?
-
-    @available(*, unavailable)
-    required init?(coder _: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     init(frame: CGRect, url: URL) {
         videoURL = url // has to be before super init
         super.init(frame: frame)
         setup()
     }
+    
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     deinit {
-        // remove all other video instances, doesn't work (?)
         player.removeAllItems()
         playerLayer.player = nil
         playerLayer.removeFromSuperlayer()
@@ -62,16 +56,14 @@ class CustomPlayerView: UIView, ObservableObject {
     func setup() {
         item = AVPlayerItem(url: videoURL)
         playerLayer.player = player
-
         playerLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(playerLayer)
-
         playerLooper = AVPlayerLooper(player: player, templateItem: item!)
         player.play()
         player.volume = 0
     } // setup
-
-    func pause() { player.pause() }
-    func mute() { player.volume = 0 }
-    func unmute() { player.volume = 1 }
+    
+//    func pause() { player.pause() }
+//    func mute() { player.volume = 0 }
+//    func unmute() { player.volume = 1 }
 }

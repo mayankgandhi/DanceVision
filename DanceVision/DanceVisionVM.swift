@@ -11,22 +11,23 @@ import Foundation
 import Vision
 
 class DanceVisionVM: ObservableObject {
-    static let shared = DanceVisionVM()
-
+//    static let shared = DanceVisionVM()
+    
     let model = WAP()
     var allPoses: [VNRecognizedPointsObservation] = []
-
-    init() {
-        //
-    }
+    
+    @Published var wapVal: String = "0%"
+    @Published var otherVal: String = "0%"
 
     func isWAP() {
         do {
-            let poses = allPoses.prefix(360).map { x in
-                x
-            }
+            let poses = allPoses.prefix(360).map { x in x }
             let output = (try makePrediction(posesWindow: poses))
-            print(output.featureValue(for: "labelProbabilities"))
+            let stats = output.featureValue(for: "labelProbabilities")!
+            let wap: Int = Int(stats.dictionaryValue["WAP"]!.floatValue * 100)
+            wapVal = String(wap) + "%"
+            let other: Int = Int(stats.dictionaryValue["Other"]!.floatValue * 100)
+            otherVal = String(other) + "%"
         } catch {
             print(error)
         }
@@ -38,13 +39,14 @@ class DanceVisionVM: ObservableObject {
         let request = VNDetectHumanBodyPoseRequest(completionHandler: { [self] request, _ in
             let poses = request.results as! [VNRecognizedPointsObservation]
             allPoses.append(contentsOf: poses)
+            print("done")
         })
 
         let processor = VNVideoProcessor(url: url)
 
         do {
-            try processor.add(request)
             let range = CMTimeRange(start: CMTime.zero, duration: avAsset.duration)
+            try processor.add(request)
             try processor.analyze(range)
         } catch {
             print(error)
