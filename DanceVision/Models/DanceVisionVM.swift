@@ -11,6 +11,7 @@ import Foundation
 import Vision
 
 class DanceVisionVM: ObservableObject {
+    
     let model = WAP()
     var allPoses: [VNRecognizedPointsObservation] = []
     
