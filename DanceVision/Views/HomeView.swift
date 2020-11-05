@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct HomeView: View {
-    
     @State var showPicker: Bool = false
     @State var videoURL = URL(string: "https://www.google.com")!
     @StateObject var viewModel = DanceVisionVM()
-    
+
     var checkNew: Button<Text> {
         Button(action: {
             self.showPicker = true
@@ -20,13 +19,13 @@ struct HomeView: View {
             Text("isWAP?")
         })
     }
-    
-    let columns = [ GridItem(.flexible()), GridItem(.flexible()) ]
-    
+
+    let columns = [GridItem(.flexible()), GridItem(.flexible())]
+
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: false) {
-                if(viewModel.items.count > 0) {
+                if viewModel.items.count > 0 {
                     LazyVGrid(columns: columns, spacing: 10) {
                         ForEach(viewModel.items, id: \.self) { item in
                             PredictedItemView(predictedItem: item)
@@ -46,7 +45,6 @@ struct HomeView: View {
             .animation(.default)
             .navigationTitle("WAP or Not?")
             .navigationBarItems(trailing: checkNew)
-           
         }
         .toast(isShowing: $viewModel.showToast, type: viewModel.toastType)
         .background(Color.blue)

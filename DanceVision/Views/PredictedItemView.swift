@@ -8,11 +8,10 @@
 import SwiftUI
 
 struct PredictedItemView: View {
-    
     struct PredictionIndicator: View {
         let title: String
         let value: String
-        
+
         var body: some View {
             VStack(spacing: 0) {
                 Text(title.uppercased())
@@ -27,25 +26,25 @@ struct PredictedItemView: View {
             }
         }
     }
-    
+
     let predictedItem: PredictedItem
-    
+
     var WAPIndicator: some View {
         VStack(alignment: .center, spacing: 0) {
             PredictionIndicator(title: "WAP", value: predictedItem.wapVal)
             PredictionIndicator(title: "Not WAP", value: predictedItem.otherVal)
         }
     }
-    
+
     var body: some View {
-        if (predictedItem.wapVal == "loader") {
-           Text("Loader")
+        if predictedItem.wapVal == "loader" {
+            Text("Loader")
         } else {
             HStack(alignment: .center, spacing: 0) {
-                    VideoPlayer(videoURL: predictedItem.videoURL)
-                        .frame(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.height / 4, alignment: .center)
-                        .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                    WAPIndicator
+                VideoPlayer(videoURL: predictedItem.videoURL)
+                    .frame(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.height / 4, alignment: .center)
+                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                WAPIndicator
             }
             .background(BlurView(.light))
             .clipShape(RoundedRectangle(cornerRadius: 25.0))
