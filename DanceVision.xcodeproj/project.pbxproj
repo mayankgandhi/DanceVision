@@ -47,6 +47,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5C1E96F9255398DC000226EE /* System */ = {
+			isa = PBXGroup;
+			children = (
+				5C44EA7D2553663300437C02 /* AppDelegate.swift */,
+				5C44EA7F2553663300437C02 /* SceneDelegate.swift */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		5C1E96FB255398EF000226EE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				5C1E96E8255378ED000226EE /* VideoPicker.swift */,
+				5C1E96EB2553796C000226EE /* VideoPlayer.swift */,
+				5C44EA812553663300437C02 /* ContentView.swift */,
+				5C1E96DF255377EC000226EE /* HomeView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		5C44EA712553663300437C02 = {
 			isa = PBXGroup;
 			children = (
@@ -66,14 +86,10 @@
 		5C44EA7C2553663300437C02 /* DanceVision */ = {
 			isa = PBXGroup;
 			children = (
-				5C44EA7D2553663300437C02 /* AppDelegate.swift */,
-				5C44EA7F2553663300437C02 /* SceneDelegate.swift */,
-				5C44EA812553663300437C02 /* ContentView.swift */,
-				5C1E96DF255377EC000226EE /* HomeView.swift */,
+				5C1E96F9255398DC000226EE /* System */,
+				5C1E96FB255398EF000226EE /* Views */,
 				5C1E96F125537DD8000226EE /* DanceVisionVM.swift */,
 				5C1E96EE25537D39000226EE /* WAP.mlmodel */,
-				5C1E96E8255378ED000226EE /* VideoPicker.swift */,
-				5C1E96EB2553796C000226EE /* VideoPlayer.swift */,
 				5C44EA832553663400437C02 /* Assets.xcassets */,
 				5C44EA882553663400437C02 /* LaunchScreen.storyboard */,
 				5C44EA8B2553663400437C02 /* Info.plist */,
