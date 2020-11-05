@@ -11,11 +11,17 @@ import Foundation
 import Vision
 
 class DanceVisionVM: ObservableObject {
-//    static let shared = DanceVisionVM()
-    
     let model = WAP()
     var allPoses: [VNRecognizedPointsObservation] = []
-    
+
+    @Published var videoURL: URL? {
+        didSet {
+            allPoses.removeAll()
+            getPoses(videoURL!)
+            isWAP()
+        }
+    }
+
     @Published var wapVal: String = "0%"
     @Published var otherVal: String = "0%"
 
@@ -24,9 +30,9 @@ class DanceVisionVM: ObservableObject {
             let poses = allPoses.prefix(360).map { x in x }
             let output = (try makePrediction(posesWindow: poses))
             let stats = output.featureValue(for: "labelProbabilities")!
-            let wap: Int = Int(stats.dictionaryValue["WAP"]!.floatValue * 100)
+            let wap = Int(stats.dictionaryValue["WAP"]!.floatValue * 100)
             wapVal = String(wap) + "%"
-            let other: Int = Int(stats.dictionaryValue["Other"]!.floatValue * 100)
+            let other = Int(stats.dictionaryValue["Other"]!.floatValue * 100)
             otherVal = String(other) + "%"
         } catch {
             print(error)

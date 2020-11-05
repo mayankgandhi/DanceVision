@@ -10,6 +10,7 @@ import Foundation
 import SwiftUI
 
 struct VideoPicker: UIViewControllerRepresentable {
+    @Environment(\.presentationMode) var presentationMode
     @Binding var showVideoPicker: Bool
     @Binding var videoURL: URL
     @StateObject var viewModel: DanceVisionVM
@@ -49,11 +50,11 @@ struct VideoPicker: UIViewControllerRepresentable {
 
         func imagePickerController(_: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
             if let url = info[.mediaURL] as? URL {
-                parent.videoURL = url
-                parent.viewModel.allPoses.removeAll()
-                parent.viewModel.getPoses(url)
-                parent.showVideoPicker = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                    self.parent.viewModel.videoURL = url
+                }
             }
+            parent.presentationMode.wrappedValue.dismiss()
         }
 
         func imagePickerControllerDidCancel(_: UIImagePickerController) {

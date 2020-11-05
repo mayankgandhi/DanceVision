@@ -37,7 +37,8 @@ class VideoPlayerView: UIView, ObservableObject {
         super.init(frame: frame)
         setup()
     }
-    
+
+    @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -62,7 +63,7 @@ class VideoPlayerView: UIView, ObservableObject {
         player.play()
         player.volume = 0
     } // setup
-    
+
 //    func pause() { player.pause() }
 //    func mute() { player.volume = 0 }
 //    func unmute() { player.volume = 1 }

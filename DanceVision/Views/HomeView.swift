@@ -7,95 +7,65 @@
 
 import SwiftUI
 
-struct PredictionIndicator: View {
-    
-    let title: String
-    @Binding var value: String
-    
-    var body: some View {
-        VStack(spacing: 5) {
-            Text(title.uppercased())
-                .font(.caption)
-            Text(value)
-                .font(.title)
-                .bold()
-                .padding()
-                .background(Color.red)
-                .clipShape(Circle())
-                .padding()
-        }
-    }
-}
-
 struct HomeView: View {
-    
     @State var showPicker: Bool = false
     @State var videoURL = URL(string: "https://www.google.com")!
-    
+
     @StateObject var viewModel = DanceVisionVM()
-    
+
     var WAPIndicator: some View {
-        VStack(alignment: .center, spacing: 10) {
+        VStack(alignment: .center, spacing: 0) {
             PredictionIndicator(title: "WAP", value: $viewModel.wapVal)
-            PredictionIndicator(title: "Other", value: $viewModel.otherVal)
+            PredictionIndicator(title: "Not WAP", value: $viewModel.otherVal)
         }
-    }
-
-    var videoPickerButton: some View {
-        Button(action: {
-            self.showPicker = true
-        }, label: {
-            HStack {
-                Spacer()
-                Text("Video Picker")
-                Spacer()
-            }
-            .padding()
-            .background(Color.gray.opacity(0.4))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .padding()
-
-        })
-    }
-
-    var performPredictionButton: some View {
-        Button(action: {
-            viewModel.isWAP()
-        }, label: {
-            HStack {
-                Spacer()
-                Text("Perform Prediction")
-                Spacer()
-            }
-            .padding()
-            .background(Color.gray.opacity(0.4))
-            .clipShape(RoundedRectangle(cornerRadius: 20))
-            .padding()
-
-        })
     }
 
     var body: some View {
         NavigationView {
             VStack(alignment: .center, spacing: 10) {
-                HStack(alignment: .center, spacing: 10) {
-                    VideoPlayer(videoURL: self.videoURL)
-                        .frame(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.height / 2, alignment: .center)
+                HStack(alignment: .center, spacing: 0) {
+                    VideoPlayer(videoURL: (viewModel.videoURL ?? URL(string: "https://google.com"))!)
+                        .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height / 3, alignment: .center)
                         .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                        .id(videoURL.absoluteString)
+                        .id(viewModel.videoURL?.absoluteString)
                     WAPIndicator
                 }
-
-                videoPickerButton
-                performPredictionButton
+                .background(Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                .shadow(radius: 10)
+                .animation(.default)
             }
             .navigationTitle("Dance Vision")
+            .navigationBarItems(trailing: Button(action: {
+                self.showPicker = true
+            }, label: {
+                Image(systemName: "plus")
+            }))
         }
         .background(Color.blue)
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $showPicker, content: {
             VideoPicker(showVideoPicker: $showPicker, videoURL: $videoURL, viewModel: viewModel)
         })
+    }
+}
+
+struct PredictionIndicator: View {
+    let title: String
+    @Binding var value: String
+
+    var body: some View {
+        VStack(spacing: 0) {
+            Text(title.uppercased())
+                .font(.caption).bold()
+            Text(value)
+                .font(.title2)
+                .bold()
+                .padding()
+                .background(Color.red)
+                .clipShape(Circle())
+                .padding(.all, 5)
+        }
     }
 }
 
