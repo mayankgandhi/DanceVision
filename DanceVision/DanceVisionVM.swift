@@ -10,10 +10,12 @@ import CoreML
 import Foundation
 import Vision
 
-struct PredictedItem {
+struct PredictedItem: Identifiable, Hashable {
     let videoURL: URL
     let wapVal: String
     let otherVal: String
+    
+    public var id: String { videoURL.absoluteString }
 }
 
 class DanceVisionVM: ObservableObject {
@@ -28,8 +30,7 @@ class DanceVisionVM: ObservableObject {
         }
     }
 
-    @Published var wapVal: String = "0%"
-    @Published var otherVal: String = "0%"
+    @Published var items: [PredictedItem] = []
 
     func isWAP() {
         do {
@@ -37,9 +38,8 @@ class DanceVisionVM: ObservableObject {
             let output = (try makePrediction(posesWindow: poses))
             let stats = output.featureValue(for: "labelProbabilities")!
             let wap = Int(stats.dictionaryValue["WAP"]!.floatValue * 100)
-            wapVal = String(wap) + "%"
             let other = Int(stats.dictionaryValue["Other"]!.floatValue * 100)
-            otherVal = String(other) + "%"
+            items.append(PredictedItem(videoURL: self.videoURL!, wapVal: String(wap), otherVal: String(other)))
         } catch {
             print(error)
         }
