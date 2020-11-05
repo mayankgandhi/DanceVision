@@ -27,6 +27,9 @@ class DanceVisionVM: ObservableObject {
 
     @Published var loading: Bool = false
     @Published var items: [PredictedItem] = []
+    
+    @Published var showToast: Bool = false
+    var toastType: ToastType = ToastType.success(message: "good")
 
     func isWAP() {
         do {

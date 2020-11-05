@@ -48,6 +48,7 @@ struct HomeView: View {
             .navigationBarItems(trailing: checkNew)
            
         }
+        .toast(isShowing: $viewModel.showToast, type: viewModel.toastType)
         .background(Color.blue)
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $showPicker, content: {

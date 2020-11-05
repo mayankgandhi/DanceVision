@@ -11,6 +11,7 @@
 		5C152B6D2553E24300E396EC /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C152B6C2553E24300E396EC /* BlurView.swift */; };
 		5C152B702553E50C00E396EC /* PredictedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C152B6F2553E50C00E396EC /* PredictedItem.swift */; };
 		5C152B782553ED9700E396EC /* WAP.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 5C152B772553ED9700E396EC /* WAP.mlmodel */; };
+		5C152B7B2553EEF000E396EC /* Toasts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C152B7A2553EEF000E396EC /* Toasts.swift */; };
 		5C1E96E0255377EC000226EE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1E96DF255377EC000226EE /* HomeView.swift */; };
 		5C1E96E9255378ED000226EE /* VideoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1E96E8255378ED000226EE /* VideoPicker.swift */; };
 		5C1E96EC2553796C000226EE /* VideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C1E96EB2553796C000226EE /* VideoPlayer.swift */; };
@@ -27,6 +28,7 @@
 		5C152B6C2553E24300E396EC /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		5C152B6F2553E50C00E396EC /* PredictedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PredictedItem.swift; sourceTree = "<group>"; };
 		5C152B772553ED9700E396EC /* WAP.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = WAP.mlmodel; sourceTree = "<group>"; };
+		5C152B7A2553EEF000E396EC /* Toasts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toasts.swift; sourceTree = "<group>"; };
 		5C1E96DF255377EC000226EE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		5C1E96E8255378ED000226EE /* VideoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPicker.swift; sourceTree = "<group>"; };
 		5C1E96EB2553796C000226EE /* VideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayer.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				5C1E96DF255377EC000226EE /* HomeView.swift */,
 				5C152B682553E0E900E396EC /* PredictedItemView.swift */,
 				5C152B6C2553E24300E396EC /* BlurView.swift */,
+				5C152B7A2553EEF000E396EC /* Toasts.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -190,6 +193,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C152B7B2553EEF000E396EC /* Toasts.swift in Sources */,
 				5C44EA7E2553663300437C02 /* AppDelegate.swift in Sources */,
 				5C1E96E0255377EC000226EE /* HomeView.swift in Sources */,
 				5C1E96EC2553796C000226EE /* VideoPlayer.swift in Sources */,
