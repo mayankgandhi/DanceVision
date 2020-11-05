@@ -1,20 +1,30 @@
 //
 //  BlurView.swift
-//  DanceVision
+//  Playground
 //
-//  Created by Mayank Gandhi on 11/4/20.
+//  Created by Mayank on 25/04/20.
+//  Copyright © 2020 Mayank. All rights reserved.
 //
 
 import SwiftUI
 
-struct BlurView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+public struct BlurView: UIViewRepresentable {
+    public var style: UIBlurEffect.Style
+    public var cornerRadius: CGFloat?
+    
+    public init(_ style: UIBlurEffect.Style, cornerRadius: CGFloat? = nil) {
+        self.style = style
+        self.cornerRadius = cornerRadius
     }
-}
 
-struct BlurView_Previews: PreviewProvider {
-    static var previews: some View {
-        BlurView()
+    public func makeUIView(context: Context) -> UIVisualEffectView {
+        UIVisualEffectView(effect: UIBlurEffect(style: style))
+    }
+    
+    public func updateUIView(_ uiView: UIVisualEffectView, context: Context) {
+        if let cornerRadius = self.cornerRadius {
+            uiView.clipsToBounds = true
+            uiView.layer.cornerRadius = cornerRadius
+        }
     }
 }

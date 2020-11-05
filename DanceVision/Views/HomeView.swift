@@ -7,69 +7,34 @@
 
 import SwiftUI
 
-struct PredictedItemView: View {
-    
-    struct PredictionIndicator: View {
-        let title: String
-        let value: String
-        
-        var body: some View {
-            VStack(spacing: 0) {
-                Text(title.uppercased())
-                    .font(.caption).bold()
-                Text(value)
-                    .font(.title2)
-                    .bold()
-                    .padding()
-                    .background(Color.red)
-                    .clipShape(Circle())
-                    .padding(.all, 5)
-            }
-        }
-    }
-    
-    let predictedItem: PredictedItem
-    
-    var WAPIndicator: some View {
-        VStack(alignment: .center, spacing: 0) {
-            PredictionIndicator(title: "WAP", value: predictedItem.wapVal)
-            PredictionIndicator(title: "Not WAP", value: predictedItem.otherVal)
-        }
-    }
-    
-    var body: some View {
-        HStack(alignment: .center, spacing: 0) {
-            VideoPlayer(videoURL: predictedItem.videoURL)
-                .frame(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.height / 3, alignment: .center)
-                .clipShape(RoundedRectangle(cornerRadius: 25.0))
-            WAPIndicator
-        }
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 25.0))
-        .shadow(radius: 10)
-        .animation(.default)
-    }
-}
-
 struct HomeView: View {
     @State var showPicker: Bool = false
     @State var videoURL = URL(string: "https://www.google.com")!
     
     @StateObject var viewModel = DanceVisionVM()
     
+    var checkNew: Button<Text> {
+        Button(action: {
+            self.showPicker = true
+        }, label: {
+            Text("isWAP?")
+        })
+    }
+    
+    let columns = [ GridItem(.flexible()), GridItem(.flexible()) ]
+    
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.items, id: \.self) { item in
-                    PredictedItemView(predictedItem: item)
+            ScrollView(.vertical, showsIndicators: false, content: {
+                LazyHGrid(rows: columns, spacing: 20) {
+                    ForEach(viewModel.items, id: \.self) { item in
+                        PredictedItemView(predictedItem: item)
+                    }
                 }
-            }
+                .animation(.default)
+            })
             .navigationTitle("Dance Vision")
-            .navigationBarItems(trailing: Button(action: {
-                self.showPicker = true
-            }, label: {
-                Image(systemName: "plus")
-            }))
+            .navigationBarItems(trailing: checkNew)
         }
         .background(Color.blue)
         .navigationViewStyle(StackNavigationViewStyle())

@@ -8,13 +8,44 @@
 import SwiftUI
 
 struct PredictedItemView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    
+    struct PredictionIndicator: View {
+        let title: String
+        let value: String
+        
+        var body: some View {
+            VStack(spacing: 0) {
+                Text(title.uppercased())
+                    .font(.caption).bold()
+                Text(value + "%")
+                    .font(.title2)
+                    .bold()
+                    .padding()
+                    .background(Color.red)
+                    .clipShape(Circle())
+                    .padding(.all, 5)
+            }
+        }
     }
-}
-
-struct PredictedItemView_Previews: PreviewProvider {
-    static var previews: some View {
-        PredictedItemView()
+    
+    let predictedItem: PredictedItem
+    
+    var WAPIndicator: some View {
+        VStack(alignment: .center, spacing: 0) {
+            PredictionIndicator(title: "WAP", value: predictedItem.wapVal)
+            PredictionIndicator(title: "Not WAP", value: predictedItem.otherVal)
+        }
+    }
+    
+    var body: some View {
+        HStack(alignment: .center, spacing: 0) {
+                VideoPlayer(videoURL: predictedItem.videoURL)
+                    .frame(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.height / 4, alignment: .center)
+                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                WAPIndicator
+        }
+        .background(BlurView(.light))
+        .clipShape(RoundedRectangle(cornerRadius: 25.0))
+        .shadow(radius: 10)
     }
 }

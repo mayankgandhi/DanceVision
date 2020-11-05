@@ -10,19 +10,12 @@ import CoreML
 import Foundation
 import Vision
 
-struct PredictedItem: Identifiable, Hashable {
-    let videoURL: URL
-    let wapVal: String
-    let otherVal: String
-    
-    public var id: String { videoURL.absoluteString }
-}
-
 class DanceVisionVM: ObservableObject {
+    
     let model = WAP()
     var allPoses: [VNRecognizedPointsObservation] = []
 
-    @Published var videoURL: URL? {
+    var videoURL: URL? {
         didSet {
             allPoses.removeAll()
             getPoses(videoURL!)
@@ -46,7 +39,6 @@ class DanceVisionVM: ObservableObject {
     }
 
     func getPoses(_ url: URL) {
-        let avAsset = AVAsset(url: url)
 
         let request = VNDetectHumanBodyPoseRequest(completionHandler: { [self] request, _ in
             let poses = request.results as! [VNRecognizedPointsObservation]
@@ -55,7 +47,8 @@ class DanceVisionVM: ObservableObject {
         })
 
         let processor = VNVideoProcessor(url: url)
-
+        let avAsset = AVAsset(url: url)
+        
         do {
             let range = CMTimeRange(start: CMTime.zero, duration: avAsset.duration)
             try processor.add(request)
