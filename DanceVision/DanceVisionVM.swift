@@ -43,7 +43,6 @@ class DanceVisionVM: ObservableObject {
         let request = VNDetectHumanBodyPoseRequest(completionHandler: { [self] request, _ in
             let poses = request.results as! [VNRecognizedPointsObservation]
             allPoses.append(contentsOf: poses)
-            print("done")
         })
 
         let processor = VNVideoProcessor(url: url)

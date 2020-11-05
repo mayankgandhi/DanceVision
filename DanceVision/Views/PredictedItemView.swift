@@ -17,7 +17,7 @@ struct PredictedItemView: View {
             VStack(spacing: 0) {
                 Text(title.uppercased())
                     .font(.caption).bold()
-                Text(value + "%")
+                Text(value)
                     .font(.title2)
                     .bold()
                     .padding()

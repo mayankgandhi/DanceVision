@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct HomeView: View {
+    
     @State var showPicker: Bool = false
     @State var videoURL = URL(string: "https://www.google.com")!
-    
     @StateObject var viewModel = DanceVisionVM()
     
     var checkNew: Button<Text> {
@@ -25,14 +25,15 @@ struct HomeView: View {
     
     var body: some View {
         NavigationView {
-            ScrollView(.vertical, showsIndicators: false, content: {
-                LazyHGrid(rows: columns, spacing: 20) {
+            ScrollView(.vertical, showsIndicators: false) {
+                LazyVGrid(columns: columns, spacing: 10) {
                     ForEach(viewModel.items, id: \.self) { item in
                         PredictedItemView(predictedItem: item)
                     }
                 }
                 .animation(.default)
-            })
+                .padding(.horizontal)
+            }
             .navigationTitle("Dance Vision")
             .navigationBarItems(trailing: checkNew)
         }
@@ -40,6 +41,7 @@ struct HomeView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $showPicker, content: {
             VideoPicker(showVideoPicker: $showPicker, videoURL: $videoURL, viewModel: viewModel)
+                .ignoresSafeArea()
         })
     }
 }
