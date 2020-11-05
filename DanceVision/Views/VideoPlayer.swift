@@ -25,10 +25,9 @@ struct VideoPlayer: UIViewRepresentable {
 
 class VideoPlayerView: UIView, ObservableObject {
     var started: Bool = false
-
-    private let playerLayer = AVPlayerLayer()
-    private var playerLooper: AVPlayerLooper?
     let player = AVQueuePlayer()
+    private let playerLayer = AVPlayerLayer()
+    private var loopPlayer: AVPlayerLooper?
     var videoURL: URL
     var item: AVPlayerItem?
 
@@ -59,12 +58,9 @@ class VideoPlayerView: UIView, ObservableObject {
         playerLayer.player = player
         playerLayer.videoGravity = .resizeAspectFill
         layer.addSublayer(playerLayer)
-        playerLooper = AVPlayerLooper(player: player, templateItem: item!)
+        loopPlayer = AVPlayerLooper(player: player, templateItem: item!)
         player.play()
         player.volume = 0
     } // setup
-
-//    func pause() { player.pause() }
-//    func mute() { player.volume = 0 }
-//    func unmute() { player.volume = 1 }
+    
 }
