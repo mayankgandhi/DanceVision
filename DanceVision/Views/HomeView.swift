@@ -26,16 +26,27 @@ struct HomeView: View {
     var body: some View {
         NavigationView {
             ScrollView(.vertical, showsIndicators: false) {
-                LazyVGrid(columns: columns, spacing: 10) {
-                    ForEach(viewModel.items, id: \.self) { item in
-                        PredictedItemView(predictedItem: item)
+                if(viewModel.items.count > 0) {
+                    LazyVGrid(columns: columns, spacing: 10) {
+                        ForEach(viewModel.items, id: \.self) { item in
+                            PredictedItemView(predictedItem: item)
+                        }
+                    }
+                    .padding(.horizontal)
+                } else {
+                    VStack {
+                        Spacer()
+                        Text("Press the isWAP? button to check whether the selected dance video is WAP or not.")
+                            .font(.callout)
+                            .foregroundColor(Color.gray)
+                            .padding()
                     }
                 }
-                .animation(.default)
-                .padding(.horizontal)
             }
-            .navigationTitle("Dance Vision")
+            .animation(.default)
+            .navigationTitle("WAP or Not?")
             .navigationBarItems(trailing: checkNew)
+           
         }
         .background(Color.blue)
         .navigationViewStyle(StackNavigationViewStyle())
@@ -43,6 +54,12 @@ struct HomeView: View {
             VideoPicker(showVideoPicker: $showPicker, videoURL: $videoURL, viewModel: viewModel)
                 .ignoresSafeArea()
         })
+        
+        ///Loading
+//        if viewModel.loading {
+//            Rectangle()
+//                .frame(width: 200, height: 200, alignment: .center)
+//        }
     }
 }
 

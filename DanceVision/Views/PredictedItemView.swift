@@ -38,14 +38,18 @@ struct PredictedItemView: View {
     }
     
     var body: some View {
-        HStack(alignment: .center, spacing: 0) {
-                VideoPlayer(videoURL: predictedItem.videoURL)
-                    .frame(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.height / 4, alignment: .center)
-                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                WAPIndicator
+        if (predictedItem.wapVal == "loader") {
+           Text("Loader")
+        } else {
+            HStack(alignment: .center, spacing: 0) {
+                    VideoPlayer(videoURL: predictedItem.videoURL)
+                        .frame(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.height / 4, alignment: .center)
+                        .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                    WAPIndicator
+            }
+            .background(BlurView(.light))
+            .clipShape(RoundedRectangle(cornerRadius: 25.0))
+            .shadow(radius: 10)
         }
-        .background(BlurView(.light))
-        .clipShape(RoundedRectangle(cornerRadius: 25.0))
-        .shadow(radius: 10)
     }
 }

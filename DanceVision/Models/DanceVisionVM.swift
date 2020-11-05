@@ -17,12 +17,15 @@ class DanceVisionVM: ObservableObject {
 
     var videoURL: URL? {
         didSet {
-            allPoses.removeAll()
+            DispatchQueue.main.async { [self] in
+                loading = true
+            }
             getPoses(videoURL!)
             isWAP()
         }
     }
 
+    @Published var loading: Bool = false
     @Published var items: [PredictedItem] = []
 
     func isWAP() {
@@ -33,6 +36,10 @@ class DanceVisionVM: ObservableObject {
             let wap = Int(stats.dictionaryValue["WAP"]!.floatValue * 100)
             let other = Int(stats.dictionaryValue["Other"]!.floatValue * 100)
             items.append(PredictedItem(videoURL: self.videoURL!, wapVal: String(wap), otherVal: String(other)))
+            DispatchQueue.main.async { [self] in
+                loading = false
+            }
+            allPoses.removeAll()
         } catch {
             print(error)
         }
@@ -59,7 +66,6 @@ class DanceVisionVM: ObservableObject {
 
     /// Make a model prediction on a window.
     func makePrediction(posesWindow: [VNRecognizedPointsObservation]) throws -> MLFeatureProvider {
-        print(posesWindow.count)
         // Prepare model input: convert each pose to a multi-array, and concatenate multi-arrays.
         let poseMultiArrays: [MLMultiArray] = try posesWindow.map { person in
             try person.keypointsMultiArray()
