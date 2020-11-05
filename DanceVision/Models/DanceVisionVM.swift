@@ -34,7 +34,7 @@ class DanceVisionVM: ObservableObject {
     func isWAP() {
         do {
             let poses = allPoses.prefix(360).map { x in x }
-            let output = (try makePrediction(posesWindow: poses))
+            guard let output = (try makePrediction(posesWindow: poses)) else { return }
             let stats = output.featureValue(for: "labelProbabilities")!
             let wap = Int(stats.dictionaryValue["WAP"]!.floatValue * 100)
             let other = Int(stats.dictionaryValue["Other"]!.floatValue * 100)
@@ -56,10 +56,18 @@ class DanceVisionVM: ObservableObject {
         })
 
         let processor = VNVideoProcessor(url: url)
-        let avAsset = AVAsset(url: url)
+        let videoDuration = AVAsset(url: url).duration
+        
+        DispatchQueue.main.async { [self] in
+
+        if !(videoDuration.seconds > 11 && videoDuration.seconds < 30 ) {
+                toastType = .warning(message: "Selected Dance Video needs to be between 11 and 30 seconds.")
+                showToast = true
+            }
+        }
         
         do {
-            let range = CMTimeRange(start: CMTime.zero, duration: avAsset.duration)
+            let range = CMTimeRange(start: CMTime.zero, duration: videoDuration)
             try processor.add(request)
             try processor.analyze(range)
         } catch {
@@ -68,16 +76,24 @@ class DanceVisionVM: ObservableObject {
     }
 
     /// Make a model prediction on a window.
-    func makePrediction(posesWindow: [VNRecognizedPointsObservation]) throws -> MLFeatureProvider {
+    func makePrediction(posesWindow: [VNRecognizedPointsObservation]) throws -> MLFeatureProvider? {
         // Prepare model input: convert each pose to a multi-array, and concatenate multi-arrays.
         let poseMultiArrays: [MLMultiArray] = try posesWindow.map { person in
-            try person.keypointsMultiArray()
+            try! person.keypointsMultiArray()
         }
 
         let modelInput = MLMultiArray(concatenating: poseMultiArrays, axis: 0, dataType: .float)
 
-        // Perform prediction
-        let predictions = try model.prediction(poses: modelInput)
+        var predictions: MLFeatureProvider?
+        do {
+            // Perform prediction
+            predictions = try model.prediction(poses: modelInput)
+        } catch {
+            DispatchQueue.main.async { [self] in
+                toastType = .error(message: error.localizedDescription)
+                showToast = true
+            }
+        }
 
         return predictions
     }

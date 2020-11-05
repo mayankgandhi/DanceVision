@@ -55,12 +55,6 @@ struct HomeView: View {
             VideoPicker(showVideoPicker: $showPicker, videoURL: $videoURL, viewModel: viewModel)
                 .ignoresSafeArea()
         })
-        
-        ///Loading
-//        if viewModel.loading {
-//            Rectangle()
-//                .frame(width: 200, height: 200, alignment: .center)
-//        }
     }
 }
 
